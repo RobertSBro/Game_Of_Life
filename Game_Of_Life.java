@@ -3,6 +3,7 @@
  * Spring 2017 update
  * 
  */
+import java.util.scanner;
 
  public class Game_Of_Life
  {
@@ -33,6 +34,25 @@
 		}
 	}
 
+	 public static void main (Strings[]args)
+	 {
+		Scanner input = new Scanner(System.in);
+		
+		System.out.println("Enter 'start' to start and 'stop' to stop: ");
+		String user = input.nextCharAt();
+		while (
+		if(user=='start')
+		{
+			
+		}
+		else if (user == 'stop')
+		{
+				
+		}
+		 
+		 
+	 }
+	 
 	/*
 	 * put a glider into the gameboard starting at row r
 	 * column c
@@ -85,16 +105,14 @@
 	 
 	 private int countNeighbors(int r, int c) 
 	 { 
-		int count = 0; 
+		int count = 0;
+		int r = 0;
+		int c = 0;
 		//This method must have a designated target
       // Scans whole board
       //Will be removed
-      for(int r = 0; r < gameboard.length; r++)
-		{
-			for(int c = 0; c < gameboard[r].length; c++)
-			{
-				if (gameboard[r][c] == ('*'))
-            {
+      
+            
             //scans the 3x3 region by saying that i cannot be 2 points back but can be 1 point back
                for(int i = r; i > gameboard[r-2].length; i < gameboard[r+2].length; i++;)
                {
@@ -105,10 +123,7 @@
                         count++;
                      }
                   }
-               }
-               
-            }
-			}
+	       }
 		return count-1; 
 		
 	 }

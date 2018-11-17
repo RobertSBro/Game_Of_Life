@@ -2,6 +2,15 @@
  * a class for working with Gliders
  * Spring 2017 update
  * 
+ 
+ NOTICE
+ 
+ Shelby, I did some modifications. Everything should work except for the timer and edges sections. 
+ I will work on that next.
+ The main obsticle you will have is trying to have count referenced into the rules section.
+ Or we can have it in the main method, it's up to you :)
+ 
+ NOTICE
  */
 import java.util.scanner;
 
@@ -114,16 +123,16 @@ import java.util.scanner;
       
             
             //scans the 3x3 region by saying that i cannot be 2 points back but can be 1 point back
-               for(int i = r; i > gameboard[r-2].length; i < gameboard[r+2].length; i++;)
+               for (i = r; (i > gameBoard[r-2].length && i < gameBoard[r+2].length); i++)
                {
-                  for (int j = c; j > gameboard[c-2].length; j < gameboard[c+2].length; j++;)
+                  for (j = c; (j > gameBoard[c-2].length && j < gameBoard[c+2].length); j++)
                   {
-                     if ((gameboard[i].length == '*') || ( gameboard[j].length == '*'))
+                     if ((gameBoard[i].length == '*') || ( gameBoard[j].length == '*'))
                      {
                         count++;
                      }
                   }
-	       }
+               }
 		return count-1; 
 		
 	 }
@@ -213,18 +222,18 @@ import java.util.scanner;
 			for(int c = 0; c < gameBoard[r].length; c++)
 			{
            //call for count gameboard
-           gameBoard[r][c].count;
+           //gameBoard[r][c].countNeighbors;
                if(count==3)
                {
                   gameBoard2[r][c] = gameBoard1[r][c];
                }
                else if (count < 3)
                {
-                  gameBoard2[r][c] == ' ';
+                  gameBoard2[r][c] = ' ';
                }
                else if (count > 3)
                {
-                  gameBoard2[r][c] == ' ';
+                  gameBoard2[r][c] = ' ';
                }
          }
       }

@@ -1,18 +1,6 @@
-/*
- * a class for working with Gliders
- * Spring 2017 update
- * 
- 
- NOTICE
- 
- Shelby, I did some modifications. Everything should work except for the timer and edges sections. 
- I will work on that next.
- The main obsticle you will have is trying to have count referenced into the rules section.
- Or we can have it in the main method, it's up to you :)
- 
- NOTICE
- */
-import java.util.scanner;
+import java.util.Scanner;
+import java.util.Arrays;
+
 
  public class Game_Of_Life
  {
@@ -26,6 +14,16 @@ import java.util.scanner;
  	{
 		//assume gameboard is 10 x 10
 		gameBoard = new char[10][10];
+      //gameBoard2 = new char [10][10];
+      Scanner input = new Scanner(System.in);
+      System.out.println("Welcome to the Game of Life!");
+      System.out.println("Press S to stop");
+      //gameBoard.putGlider;
+      //gameBoard.life;
+      //putGlider(r,c);
+      //life(r,c);
+      //System.out.println("There are "+gameBoard2.total+" cells.");
+      
 	}
 
 	/*
@@ -43,25 +41,6 @@ import java.util.scanner;
 		}
 	}
 
-	 public static void main (Strings[]args)
-	 {
-		Scanner input = new Scanner(System.in);
-		
-		System.out.println("Enter 'start' to start and 'stop' to stop: ");
-		String user = input.nextCharAt();
-		while (
-		if(user=='start')
-		{
-			
-		}
-		else if (user == 'stop')
-		{
-				
-		}
-		 
-		 
-	 }
-	 
 	/*
 	 * put a glider into the gameboard starting at row r
 	 * column c
@@ -112,16 +91,13 @@ import java.util.scanner;
 	 * no error checking 
 	 */
 	 
-	 private int countNeighbors(int r, int c) 
+	 public static int countNeighbors(int r, int c, int i, int j, Boolean[][] gameBoard) 
 	 { 
-		int count = 0;
-		int r = 0;
-		int c = 0;
+		int count = 0; 
 		//This method must have a designated target
       // Scans whole board
       //Will be removed
       
-            
             //scans the 3x3 region by saying that i cannot be 2 points back but can be 1 point back
                for (i = r; (i > gameBoard[r-2].length && i < gameBoard[r+2].length); i++)
                {
@@ -129,116 +105,75 @@ import java.util.scanner;
                   {
                      if ((gameBoard[i].length == '*') || ( gameBoard[j].length == '*'))
                      {
-                        count++;
+                        count++;                        
+                        }
                      }
                   }
-               }
-		return count-1; 
-		
-	 }
-    
-    
-    
-    
-   public void Sleeper(long sleepTime)
-	{
+                  return count--;
+               }		
+	 
+    public void Sleeper(long sleepTime)
+	throws InterruptedException
+   {
 		//default sleep for one second
-		long sleepTime = 1000;
-
-		//get commnd line time if entered
-		if(args.length == 1)
-		{
-			sleepTime = Long.parseLong(args[0]);
+		sleepTime = 3000;
+		Thread.sleep(sleepTime);
+			
 		}
+      
+	
 
-		//start sleep() example
-		while(true)
-		{	System.out.println("Sleeping ..... Ctrl-C to exit");
-			try
-			{
-				Thread.sleep(sleepTime);
-			}
-			catch(Exception ex)
-			{
-				System.out.println("Exception:"+ex.getStackTrace());
-			}
-		}
-	}
-   
-   
-   public static boolean isEdge(char[][] w, int r, int c)
-  {
-	//it it in an edge ?
-	if((r == 0) || (r == w.length-1) || (c == 0) || (c == w.length-1))
-	  return true;
-    else
-	  return false;
-  }
-
-  public static boolean isTopEdge(int r, int c)
-  {
-    if(r == 0)
-	  return true;
-	else
-	  return false;
-  }
-
-  public static boolean isBottomEdge(int r, char[][] w)
-  {
-    if(r == w.length-1)
-	  return true;
-	else
-	  return false;
-  }
-
-  public static boolean isLeftEdge(int c)
-  {
-    if(c == 0)
-	  return true;
-	else
-	  return false;
-  }
-
-  public static boolean isRightEdge(int c, char[][] w)
-  {
-    if(c == w.length-1)
-	  return true;
-	else
-	  return false;
-  }
   
-  public boolean life ()
-  {
-      /*make a second array called 'gameboard2'
-      This will allow us to transfer the living cells over to the new cells after making adjustments
+ public static Boolean[][] Life(Boolean[][] gameBoard, int newRows, int newCols) 
+ {
+
+    Boolean[][] gameBoard2 = new Boolean[newRows][];
+    for (int row = 0; row < newRows; row++) 
+    {
+        gameBoard2[row] = Arrays.copyOf(gameBoard[row], newCols);
+    }
+
+    for (int row = 0; row < newRows; row++) 
+    {
+        for (int col = 0; col < newCols; col++) 
+        {
+
+            int count = countNeighbors(row, col, newRows, newCols, gameBoard);
+
+            if ((count < 2) || (count > 3)) 
+            {
+                gameBoard2[row][col] = false;
+            }
+
+            if (count == 2) 
+            {
+                gameBoard2[row][col] = gameBoard[row][col];
+            }
+
+            if (count == 3) 
+            {
+                gameBoard2[row][col] = true;
+            }
+        }
+    }
+    return gameBoard2;
+}         
       
-      
-      */
-      gameBoard2 = new char[10][10];
-      gameBoard2 = gameBoard;
-      
-      for(int r = 0; r < gameBoard.length; r++)
+  /*
+   private int countTotal()
+   {
+      int total;
+       for(r = 0; r < gameBoard.length; r++)
 		{
-			for(int c = 0; c < gameBoard[r].length; c++)
+			for(c = 0; c < gameBoard[r].length; c++)
 			{
-           //call for count gameboard
-           //gameBoard[r][c].countNeighbors;
-               if(count==3)
-               {
-                  gameBoard2[r][c] = gameBoard1[r][c];
-               }
-               else if (count < 3)
-               {
-                  gameBoard2[r][c] = ' ';
-               }
-               else if (count > 3)
-               {
-                  gameBoard2[r][c] = ' ';
-               }
+            if((gameBoard2[r] =='*')||(gameBoard2[c] == '*'))
+            {
+               total++;
+            }
          }
       }
-  
-  
-  
-  }
- } ///~
+      return total;
+   }
+  */
+ }

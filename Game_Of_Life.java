@@ -4,21 +4,36 @@ import java.util.Arrays;
 
  public class Game_Of_Life
  {
- 	private char[][] gameBoard;
+ 	public char[][] gameBoard;
+ 	public char[][] gameBoard2;
  	private char[][] glider = {{' ','*',' '},
  							   {' ','*','*'},
  							   {'*',' ','*'}
  							  };
+ 	private char[][] tumbler = {{' ','*','*',' ','*','*',' '},
+			   					{' ','*','*',' ','*','*',' '},
+	   							{' ',' ','*',' ','*',' ',' '},
+			   					{'*',' ','*',' ','*',' ','*'},
+			   					{'*',' ','*',' ','*',' ','*'},
+			   					{'*','*',' ',' ',' ','*','*'}
+			  					};
+ 	private char[][] exploder = {{'*',' ','*',' ','*'},
+								{'*',' ',' ',' ','*'},
+								{'*',' ',' ',' ','*'},
+								{'*',' ',' ',' ','*'},
+								{'*',' ','*',' ','*'},
+								};
+ 			
+ 			
 	/* constructor */
  	public Game_Of_Life()
  	{
 		//assume gameboard is 10 x 10
-		gameBoard = new char[10][10];
-      //gameBoard2 = new char [10][10];
-      Scanner input = new Scanner(System.in);
-      System.out.println("Welcome to the Game of Life!");
-      System.out.println("Press S to stop");
-      //gameBoard.putGlider;
+ 		gameBoard = new char[10][10];
+ 		gameBoard2 = new char [10][10];
+      
+      
+      //Life = LIFE;
       //gameBoard.life;
       //putGlider(r,c);
       //life(r,c);
@@ -29,7 +44,7 @@ import java.util.Arrays;
 	/*
 	 * prints a glider
 	 */
-	private void printGlider()
+	public void printGlider()
 	{
 		for(int i = 0; i < glider.length; i++)
 		{
@@ -40,7 +55,28 @@ import java.util.Arrays;
 			System.out.println();
 		}
 	}
-
+	public void printTumbler()
+	{
+		for(int i = 0; i < tumbler.length; i++)
+		{
+			for(int j = 0; j < tumbler[i].length; j++)
+			{
+				System.out.print(tumbler[i][j]);
+			}
+			System.out.println();
+		}
+	}
+	public void printExploder()
+	{
+		for(int i = 0; i < exploder.length; i++)
+		{
+			for(int j = 0; j < exploder[i].length; j++)
+			{
+				System.out.print(exploder[i][j]);
+			}
+			System.out.println();
+		}
+	}
 	/*
 	 * put a glider into the gameboard starting at row r
 	 * column c
@@ -63,10 +99,6 @@ import java.util.Arrays;
 		}
 		//print the board
 		printBoard();
-		
-		//TODO : Count the neighbors 
-      
-		
 	}
 
 	/*
@@ -106,11 +138,11 @@ import java.util.Arrays;
                      if ((gameBoard[i].length == '*') || ( gameBoard[j].length == '*'))
                      {
                         count++;                        
-                        }
                      }
                   }
+               }
                   return count--;
-               }		
+     }		
 	 
     public void Sleeper(long sleepTime)
 	throws InterruptedException
@@ -127,12 +159,11 @@ import java.util.Arrays;
  public static Boolean[][] Life(Boolean[][] gameBoard, int newRows, int newCols) 
  {
 
-    Boolean[][] gameBoard2 = new Boolean[newRows][];
+    Boolean[][] gameBoard2 = new Boolean[newRows][]; 
     for (int row = 0; row < newRows; row++) 
     {
         gameBoard2[row] = Arrays.copyOf(gameBoard[row], newCols);
     }
-
     for (int row = 0; row < newRows; row++) 
     {
         for (int col = 0; col < newCols; col++) 
@@ -156,18 +187,100 @@ import java.util.Arrays;
             }
         }
     }
-    return gameBoard2;
-}         
-      
+    gameBoard = gameBoard2;
+    return gameBoard;
+}    
+ /*
+ 	public void printBoard2()
+ 	{
+		System.out.println("Next cycle");
+		for(int i =0; i < gameBoard2.length; i++)
+		{
+			for(int j = 0; j< gameBoard2[i].length; j++)
+			{
+				System.out.print(gameBoard2[i][j]);
+			}
+			System.out.println();
+		}
+	}
+ */
+ 
+   public static void main(String[] args) throws InterruptedException
+   {
+      Game_Of_Life GAME = new Game_Of_Life();
+      Scanner input = new Scanner(System.in);
+      System.out.println("Welcome to the Game of Life!");
+      System.out.println("Please select an object");
+      System.out.println("(Glider),(Exploder),(Tumbler)");
+      String O = input.nextLine();
+      switch(O)
+      {
+         case "Glider":
+         {
+            GAME.printGlider();
+            System.out.println(O);
+            //O=GAME.putGlider();
+            break;
+         }
+         case "Tumbler":
+         {
+            GAME.printTumbler();
+            System.out.println(O);
+            //O=GAME.putTumbler();
+            break;
+         }
+         case "Exploder":
+         {
+            GAME.printExploder();
+            System.out.println(O);
+            //O=GAME.putExploder();
+            break;
+         }
+      }
+      System.out.println("To start, please press A");
+      char A = input.next().charAt(0);
+      if((A =='a')||(A=='A'))
+      {
+    	  System.out.print(O);
+	      while(true)
+	      {
+	         
+	         //GAME.Sleeper(3000);
+	         
+	         // fix sleeper, get the dashboard to print the glider, everything else should be downhill        
+	         //System.out.println("Total number of cells are " + GAME.total);
+	         
+	    	  GAME.printBoard();
+	    	  
+	    	  
+	         System.out.println("Press S to stop. Press C to continue.");
+	         char S = input.next().charAt(0);
+	         /*
+	         if((S=='s')||(S=='S'))
+	         {
+	            System.out.println("Game has ended!");
+	            break;
+	         }
+	        
+	         else if((S=='c')||(S=='C'))
+	         {
+		            System.out.println("Game has ended!");
+		            break;
+	         }
+	         */
+         }
+      }
+   
+   }     
   /*
-   private int countTotal()
+   public int countTotal(int r, int c, int i, int j, Boolean[][] gameBoard2)
    {
       int total;
-       for(r = 0; r < gameBoard.length; r++)
+       for(r = 0; r < gameBoard2.length; r++)
 		{
-			for(c = 0; c < gameBoard[r].length; c++)
+			for(c = 0; c < gameBoard2[r].length; c++)
 			{
-            if((gameBoard2[r] =='*')||(gameBoard2[c] == '*'))
+            if((gameBoard2[r] == '*')||(gameBoard2[c] == '*'))
             {
                total++;
             }
@@ -175,5 +288,5 @@ import java.util.Arrays;
       }
       return total;
    }
-  */
- }
+   */
+  }

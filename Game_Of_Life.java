@@ -1,9 +1,8 @@
 import java.util.Scanner;
 import java.util.Arrays;
-
-
  public class Game_Of_Life
  {
+	//Identifies variables, all are chars and statics
  	public static char[][] gameBoard;
  	public static char[][] gameBoard2;
  	public static char[][] pattern;
@@ -24,29 +23,23 @@ import java.util.Arrays;
 										{'*',' ',' ',' ','*'},
 										{'*',' ','*',' ','*'},
 										};
- 			
- 			
 	/* constructor */
  	public Game_Of_Life()
  	{
-		//assume gameboard is 10 x 10
+		//establishes values for gameBoard and gameBoard2
  		gameBoard = new char[20][20];
- 		gameBoard2 = new char [20][20];
-      
-      
-      //Life = LIFE;
-      //gameBoard.life;
-      //putGlider(r,c);
-      //life(r,c);
-      //System.out.println("There are "+gameBoard2.total+" cells.");
-      
+ 		gameBoard2 = new char [20][20];      
 	}
  	public static void main(String[] args)throws InterruptedException
     {
+ 		//x is an int for registery for the case switch of O
  	   int x=0;
+ 	   //gives the public class a name for itself
        Game_Of_Life GAME = new Game_Of_Life();
+       //identifies scanner
        Scanner input = new Scanner(System.in);
        System.out.println("Welcome to the Game of Life!");
+       //asks for input O between 3 available patterns
        System.out.println("Please select an object");
        System.out.println("(Glider),(Exploder),(Tumbler)");
        String O = input.nextLine();
@@ -54,17 +47,18 @@ import java.util.Arrays;
        {
           case "Glider":
           {
+        	 //Prints the pattern
              GAME.printGlider();
+             //Prints out what the user inputed
              System.out.println(O);
+             //Registers x with a number 1-3. This is used for setBoard to know which is to be used
              x=1;
-             //Game_Of_Life.newBoard(glider);
              break;
           }
           case "Tumbler":
           {
              GAME.printTumbler();
              System.out.println(O);
-             //Game_Of_Life.newBoard(tumbler);
              x=2;
              break;
           }
@@ -72,51 +66,59 @@ import java.util.Arrays;
           {
              GAME.printExploder();
              System.out.println(O);
-             //Game_Of_Life.newBoard(exploder);
              x=3;
              break;
           }
        }
+       // the program asks for 4 inputs, 3 ints, 1 char
+       //first it asks for two cord to set where the pattern while be at
        System.out.println("Enter first cordinate.");
        int first = input.nextInt();
        System.out.println("Enter second cordinate.");
        int second = input.nextInt();
-       System.out.println("To start, please press A");
+       //int sleep will be used for the sleeper
+       System.out.println("How many times?");
+       int sleep = input.nextInt();
+       //asks consent to start, N to not start and skips the while loop
+       System.out.println("To start, please press A. To stop, press N.");
        char A = input.next().charAt(0);
        if((A =='a')||(A=='A'))
        {
+    	   //iff continued, GAME sets the board before the real content begins
      	  GAME.setBoard(x,first,second);
  	      while(true)
  	      {
- 	         
+ 	         //processes changes using method Life
  	    	 GAME.Life();
+ 	    	 //Prints board
  	    	 GAME.printBoard();
- 	         
- 	         // fix sleeper, get the dashboard to print the glider, everything else should be downhill        
- 	         //System.out.println("Total number of cells are " + GAME.total);
  	         System.out.print("There are "+ GAME.countTotal() + " cells!");
- 	    	  //GAME.printBoard();
- 	    	  
- 	    	  
- 	    	  /*
+ 	    	 // Followed by a scanner if to continue or stop 
  	         System.out.println("Press S to stop. Press C to continue.");
  	         char S = input.next().charAt(0);
- 	         
+ 	         //If S, prints out "Game has ended!" and ends the while loop
  	         if((S=='s')||(S=='S'))
  	         {
+ 	        	//ends the game
  	            System.out.println("Game has ended!");
  	            break;
  	         }
- 	        */
- 	    	 GAME.Sleeper(1000);
+ 	         else if((S=='c')||(S=='C'))
+ 	         {
+ 	         	//continues since there is no break which ends the program
+ 	         }
+ 	         //sleeper is set to go 'sleep' or int amount of times based on the user's input
+ 	         //NOTE: Sleeper is in the while loop and continues to operate with or withoute input for S
+ 	         //If input S is selected, sleeper is overrided
+ 	    	 GAME.Sleeper(sleep);
           }
- 	      
        }
-    
+       else if ((A=='n')||(A=='N'))
+       {
+    	   System.out.println("Game aborted.");
+       }
     }  
-	/*
-	 * prints a glider
-	 */
+	// prints pattern
 	public void printGlider()
 	{
 		for(int i = 0; i < glider.length; i++)
@@ -150,12 +152,10 @@ import java.util.Arrays;
 			System.out.println();
 		}
 	}
-	/*
-	 * put a glider into the gameboard starting at row r
-	 * column c
-	 * Note: There is no error checking for edges!!!
-	 */
-	
+	/* putGlider is set as char [][] as it is also being inputted by a char and x,c
+	 * Then puts the glider on the board based what the r and c says to start
+	 * GameBoard copies it and the x is returned
+	*/
 	public static char[][] putGlider(char [][] x,int r, int c)
 	{
 		int gliderRow = 0;
@@ -173,6 +173,7 @@ import java.util.Arrays;
 		//print the board
 		return x;
 	}
+	//same to putTumbler
 	public static char[][] putTumbler(char [][] x,int r, int c)
 	{
 		int tumblerRow = 0;
@@ -190,6 +191,7 @@ import java.util.Arrays;
 		//print the board
 		return x;
 	}
+	//same to putExploder
 	public static char[][] putExploder(char[][] x,int r, int c)
 	{
 		int exploderRow = 0;
@@ -208,9 +210,7 @@ import java.util.Arrays;
 		return x;
 	}
 
-	/*
-	 * print the game board
-	 */
+	//prints the game board
 	public static void printBoard()
 	{
 		System.out.println("Printing the game board");
@@ -224,16 +224,11 @@ import java.util.Arrays;
 			System.out.println();
 		}
 	}
-	
-	/*
-	 * count the neighbors 
-	 * no error checking 
-	 */
-	//setter
-	
 	//call as setBoard
 	public void setBoard(int x, int y, int z)
 	{
+		//takes the register number and both y and z from the main to input where the pattern is set
+		//Switch case is used
 		switch(x)
 		{
 		case 1:
@@ -256,33 +251,13 @@ import java.util.Arrays;
 		 }
 		}	
 	}
-	 public static void newBoard()
-	 {
-		 //put shape into gameboard
-		 //print it
-		 //  gameboard=life(gaemboard)
-		 //my life would take the gameboard, apply rules and print it after rules had been applied
-		 //then it would return the new gameboard
-		 //gameBoard2=Life(gameBoard2);
-		 //gameBoard=Life(gameBoard);
-		 //stp 1 print gameboard
-		 //System.out.println(gameBoard);
-		 //apply life
-		 //print the new board 
-		 //iterate all of the inital board and set each element equal to the new element 
-		 //in the new board 
-		// gameBoard2.length(Boolean Life);
-		 //gameBoard=gameBoard2; 
-	 }
-	 
-	 
 	 public static int countNeighbors(int r, int c) 
 	 { 
 		int count = 0; 
-		//This method must have a designated target
-		// Scans whole board
-		//Will be removed
-		//scans the 3x3 region by saying that i cannot be 2 points back but can be 1 point back
+		//Scans the region around the designated cell in Life's for loops
+		//First uses isEdge but starts with '!' to designate that it is not an edge
+		//Cords based on the inputs of r and c are checked on hardwired locations with 8 ifs
+		//NOTE: gameBoard[r][c] stand alone will not be including since we are not measuring the cell itself
 				  if((!isEdge(r,c))&&(gameBoard[r-1][c-1]=='*'))
 				  {
 					  count++;
@@ -319,49 +294,30 @@ import java.util.Arrays;
 		}	
 	 public static boolean isEdge( int r, int c)
 	  {
-		//is it in an edge ?
+		//True or false if this is acknowledged as an edge
 		if((r == 0) || (r == gameBoard.length-1) || (c == 0) || (c == gameBoard.length-1))
 		  return true;
 	    else
 		  return false;
 	  }
-
-	 
     public void Sleeper(long sleepTime)
 	throws InterruptedException
    {
-		//default sleep for one second
+		//default sleep for one second to allow the user see the change in time
 		sleepTime = 1000;
-		Thread.sleep(sleepTime);
-			
-		}
-      
-	
-    
+		Thread.sleep(sleepTime);		
+	}
     public void Life() 
     {
 		 int r;
 		 int c;
-		 /*
-		 for(r = 0; r < gameBoard2.length; r++)
-			{
-				for(c = 0; c < gameBoard2[r].length; c++)
-				{
-	            gameBoard2[r][c]=gameBoard[r][c];
-				}
-	         }
-	         */
+		 //Scans all of gameBoard which is set, then inputs changes onto the gameBoard2
 	       for (int row = 0; row < gameBoard.length; row++) 
 	       {
 	           for (int col = 0; col < gameBoard[row].length; col++) 
 	           {
 	               int count = countNeighbors(row, col);
-	               /*
-	               if(gameBoard2[row][col]=='*')
-	               {
-	            	   count--;
-	               }
-	               */
+	               
 	               if ((count < 2) || (count > 3)) 
 	               {
 	                   gameBoard2[row][col] = ' ';
@@ -384,43 +340,8 @@ import java.util.Arrays;
 				      gameBoard[r][c]=gameBoard2[r][c];   
 				 }
 			 } 	
-   }    
-  /*
- public static Boolean[][] Life(Boolean[][] gameBoard, int newRows, int newCols) 
- {
-
-    Boolean[][] gameBoard2 = new Boolean[newRows][]; 
-    for (int row = 0; row < newRows; row++) 
-    {
-        gameBoard2[row] = Arrays.copyOf(gameBoard[row], newCols);
-    }
-    for (int row = 0; row < newRows; row++) 
-    {
-        for (int col = 0; col < newCols; col++) 
-        {
-
-            int count = countNeighbors(row, col, newRows, newCols, gameBoard);
-
-            if ((count < 2) || (count > 3)) 
-            {
-                gameBoard2[row][col] = false;
-            }
-
-            if (count == 2) 
-            {
-                gameBoard2[row][col] = gameBoard[row][col];
-            }
-
-            if (count == 3) 
-            {
-                gameBoard2[row][col] = true;
-            }
-        }
-    }
-    gameBoard = gameBoard2;
-    return gameBoard;
-}   
-*/ 
+    }    
+ //scans the whole board and returns the number of '*' are in the board, that's it
    public int countTotal()
    {
       int total = 0;
@@ -438,5 +359,4 @@ import java.util.Arrays;
       }
       return total;
    }
-   
   }

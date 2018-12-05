@@ -6,31 +6,32 @@ import java.util.Arrays;
  {
  	public static char[][] gameBoard;
  	public static char[][] gameBoard2;
- 	private char[][] glider = {{' ','*',' '},
- 							   {' ','*','*'},
- 							   {'*',' ','*'}
- 							  };
- 	private char[][] tumbler = {{' ','*','*',' ','*','*',' '},
-			   					{' ','*','*',' ','*','*',' '},
-	   							{' ',' ','*',' ','*',' ',' '},
-			   					{'*',' ','*',' ','*',' ','*'},
-			   					{'*',' ','*',' ','*',' ','*'},
-			   					{'*','*',' ',' ',' ','*','*'}
-			  					};
- 	private char[][] exploder = {{'*',' ','*',' ','*'},
-								{'*',' ',' ',' ','*'},
-								{'*',' ',' ',' ','*'},
-								{'*',' ',' ',' ','*'},
-								{'*',' ','*',' ','*'},
-								};
+ 	public static char[][] pattern;
+ 	private static char[][] glider = {{' ','*',' '},
+ 							   		{' ',' ','*'},
+ 							   		{'*','*','*'}
+ 							  		};
+ 	private static char[][] tumbler = {{' ','*','*',' ','*','*',' '},
+					   					{' ','*','*',' ','*','*',' '},
+			   							{' ',' ','*',' ','*',' ',' '},
+					   					{'*',' ','*',' ','*',' ','*'},
+					   					{'*',' ','*',' ','*',' ','*'},
+					   					{'*','*',' ',' ',' ','*','*'}
+					  					};
+ 	private static char[][] exploder = {{'*',' ','*',' ','*'},
+										{'*',' ',' ',' ','*'},
+										{'*',' ',' ',' ','*'},
+										{'*',' ',' ',' ','*'},
+										{'*',' ','*',' ','*'},
+										};
  			
  			
 	/* constructor */
  	public Game_Of_Life()
  	{
 		//assume gameboard is 10 x 10
- 		gameBoard = new char[10][10];
- 		gameBoard2 = new char [10][10];
+ 		gameBoard = new char[20][20];
+ 		gameBoard2 = new char [20][20];
       
       
       //Life = LIFE;
@@ -40,7 +41,7 @@ import java.util.Arrays;
       //System.out.println("There are "+gameBoard2.total+" cells.");
       
 	}
- 	public static void main(String[] args) throws InterruptedException
+ 	public static void main(String[] args)throws InterruptedException
     {
  	   int x=0;
        Game_Of_Life GAME = new Game_Of_Life();
@@ -56,13 +57,14 @@ import java.util.Arrays;
              GAME.printGlider();
              System.out.println(O);
              x=1;
+             //Game_Of_Life.newBoard(glider);
              break;
           }
           case "Tumbler":
           {
              GAME.printTumbler();
              System.out.println(O);
-             //O=GAME.putTumbler();
+             //Game_Of_Life.newBoard(tumbler);
              x=2;
              break;
           }
@@ -70,45 +72,33 @@ import java.util.Arrays;
           {
              GAME.printExploder();
              System.out.println(O);
-             //O=GAME.putExploder();
+             //Game_Of_Life.newBoard(exploder);
              x=3;
              break;
           }
        }
+       System.out.println("Enter first cordinate.");
+       int first = input.nextInt();
+       System.out.println("Enter second cordinate.");
+       int second = input.nextInt();
        System.out.println("To start, please press A");
        char A = input.next().charAt(0);
        if((A =='a')||(A=='A'))
        {
-     	  switch(x)
-     	  {
- 	    	  case 1:
- 	    	  {
- 	    		  GAME.putGlider(4,4);
- 	    		  break;
- 	    	  }
- 	    	  case 2:
- 	    	  {
- 	    		  GAME.putTumbler(4,4);
- 	    		  break;
- 	    	  }
- 	    	  case 3:
- 	    	  {
- 	    		  GAME.putExploder(4,4);
- 	    		  break;
- 	    	  }
-     	  }
+     	  GAME.setBoard(x,first,second);
  	      while(true)
  	      {
  	         
- 	         GAME.Sleeper(3000);
+ 	    	 GAME.Life();
+ 	    	 GAME.printBoard();
  	         
  	         // fix sleeper, get the dashboard to print the glider, everything else should be downhill        
  	         //System.out.println("Total number of cells are " + GAME.total);
- 	         
- 	    	  GAME.printBoard();
- 	    	  System.out.print("There are "+ GAME.countTotal() + " cells!");
+ 	         System.out.print("There are "+ GAME.countTotal() + " cells!");
+ 	    	  //GAME.printBoard();
  	    	  
  	    	  
+ 	    	  /*
  	         System.out.println("Press S to stop. Press C to continue.");
  	         char S = input.next().charAt(0);
  	         
@@ -117,9 +107,10 @@ import java.util.Arrays;
  	            System.out.println("Game has ended!");
  	            break;
  	         }
- 	        
- 	        
+ 	        */
+ 	    	 GAME.Sleeper(1000);
           }
+ 	      
        }
     
     }  
@@ -164,7 +155,8 @@ import java.util.Arrays;
 	 * column c
 	 * Note: There is no error checking for edges!!!
 	 */
-	public void putGlider(int r, int c)
+	
+	public static char[][] putGlider(char [][] x,int r, int c)
 	{
 		int gliderRow = 0;
 		int gliderCol;
@@ -179,9 +171,9 @@ import java.util.Arrays;
 			gliderRow++;
 		}
 		//print the board
-		printBoard();
+		return x;
 	}
-	public void putTumbler(int r, int c)
+	public static char[][] putTumbler(char [][] x,int r, int c)
 	{
 		int tumblerRow = 0;
 		int tumblerCol;
@@ -196,9 +188,9 @@ import java.util.Arrays;
 			tumblerRow++;
 		}
 		//print the board
-		printBoard();
+		return x;
 	}
-	public void putExploder(int r, int c)
+	public static char[][] putExploder(char[][] x,int r, int c)
 	{
 		int exploderRow = 0;
 		int exploderCol;
@@ -213,13 +205,13 @@ import java.util.Arrays;
 			exploderRow++;
 		}
 		//print the board
-		printBoard();
+		return x;
 	}
 
 	/*
 	 * print the game board
 	 */
-	public void printBoard()
+	public static void printBoard()
 	{
 		System.out.println("Printing the game board");
 
@@ -237,45 +229,98 @@ import java.util.Arrays;
 	 * count the neighbors 
 	 * no error checking 
 	 */
-	/*
+	//setter
+	
+	//call as setBoard
+	public void setBoard(int x, int y, int z)
+	{
+		switch(x)
+		{
+		case 1:
+		 {
+			 gameBoard = putGlider(gameBoard ,y,z);
+			 printBoard();
+			 break;
+		 }
+		case 2:
+		 {
+			 gameBoard = putTumbler(gameBoard ,y,z);
+			 printBoard();
+			 break;
+		 }
+		case 3:
+		 {
+			 gameBoard = putExploder(gameBoard ,y,z);
+			 printBoard();
+			 break;
+		 }
+		}	
+	}
 	 public static void newBoard()
 	 {
-		 
-		 gameBoard2=gameBoard;
-		 gameBoard2.length(Boolean Life);
-		 
-		 gameBoard=gameBoard2;
-		 
+		 //put shape into gameboard
+		 //print it
+		 //  gameboard=life(gaemboard)
+		 //my life would take the gameboard, apply rules and print it after rules had been applied
+		 //then it would return the new gameboard
+		 //gameBoard2=Life(gameBoard2);
+		 //gameBoard=Life(gameBoard);
+		 //stp 1 print gameboard
+		 //System.out.println(gameBoard);
+		 //apply life
+		 //print the new board 
+		 //iterate all of the inital board and set each element equal to the new element 
+		 //in the new board 
+		// gameBoard2.length(Boolean Life);
+		 //gameBoard=gameBoard2; 
 	 }
-	 */
 	 
-	 public static int countNeighbors(int r, int c, int i, int j, Boolean[][] gameBoard) 
+	 
+	 public static int countNeighbors(int r, int c) 
 	 { 
 		int count = 0; 
 		//This method must have a designated target
-      // Scans whole board
-      //Will be removed
-      
-            //scans the 3x3 region by saying that i cannot be 2 points back but can be 1 point back
-               for (i = r; (i > gameBoard[r-1].length && i < gameBoard[r+1].length); i++)
-               {
-                  for (j = c; (j > gameBoard[c-1].length && j < gameBoard[c+1].length); j++)
-                  {
-                     if ((gameBoard[i].length == '*') || ( gameBoard[j].length == '*'))
-                     {
-                        if(!isEdge(gameBoard,i,j))
-                        {
-                        	count++;
-                        } 
-                     }
-                  }
-               }
-                  return count--;
-     }		
-	 public static boolean isEdge(Boolean [][] w, int r, int c)
+		// Scans whole board
+		//Will be removed
+		//scans the 3x3 region by saying that i cannot be 2 points back but can be 1 point back
+				  if((!isEdge(r,c))&&(gameBoard[r-1][c-1]=='*'))
+				  {
+					  count++;
+				  }
+				  if((!isEdge(r,c))&&(gameBoard[r-1][c]=='*'))
+				  {
+					  count++;
+				  }
+				  if((!isEdge(r,c))&&(gameBoard[r-1][c+1]=='*'))
+				  {
+					  count++;
+				  }
+				  if((!isEdge(r,c))&&(gameBoard[r][c-1]=='*'))
+				  {
+					  count++;
+				  }
+				  if((!isEdge(r,c))&&(gameBoard[r][c+1]=='*'))
+				  {
+					  count++;
+				  }
+				  if((!isEdge(r,c))&&(gameBoard[r+1][c-1]=='*'))
+				  {
+					  count++;
+				  }
+				  if((!isEdge(r,c))&&(gameBoard[r+1][c]=='*'))
+				  {
+					  count++;
+				  }
+				  if((!isEdge(r,c))&&(gameBoard[r+1][c+1]=='*'))
+				  {
+					  count++;  
+				  }
+				  return count;
+		}	
+	 public static boolean isEdge( int r, int c)
 	  {
 		//is it in an edge ?
-		if((r == 0) || (r == w.length-1) || (c == 0) || (c == w.length-1))
+		if((r == 0) || (r == gameBoard.length-1) || (c == 0) || (c == gameBoard.length-1))
 		  return true;
 	    else
 		  return false;
@@ -286,14 +331,61 @@ import java.util.Arrays;
 	throws InterruptedException
    {
 		//default sleep for one second
-		sleepTime = 3000;
+		sleepTime = 1000;
 		Thread.sleep(sleepTime);
 			
 		}
       
 	
-
-  
+    
+    public void Life() 
+    {
+		 int r;
+		 int c;
+		 /*
+		 for(r = 0; r < gameBoard2.length; r++)
+			{
+				for(c = 0; c < gameBoard2[r].length; c++)
+				{
+	            gameBoard2[r][c]=gameBoard[r][c];
+				}
+	         }
+	         */
+	       for (int row = 0; row < gameBoard.length; row++) 
+	       {
+	           for (int col = 0; col < gameBoard[row].length; col++) 
+	           {
+	               int count = countNeighbors(row, col);
+	               /*
+	               if(gameBoard2[row][col]=='*')
+	               {
+	            	   count--;
+	               }
+	               */
+	               if ((count < 2) || (count > 3)) 
+	               {
+	                   gameBoard2[row][col] = ' ';
+	               }
+	               if(count == 2)
+	               {
+	            	   gameBoard2[row][col] = gameBoard[row][col];
+	               }
+	               if (count == 3)
+	               {
+	            	   gameBoard2[row][col] = '*';
+	               }
+	           }
+	       }
+	       //converts gameBoard2 back to gameBoard
+	       for(r = 0; r < gameBoard.length; r++)
+			 {
+				for(c = 0; c < gameBoard[r].length; c++)
+				 {
+				      gameBoard[r][c]=gameBoard2[r][c];   
+				 }
+			 } 	
+   }    
+  /*
  public static Boolean[][] Life(Boolean[][] gameBoard, int newRows, int newCols) 
  {
 
@@ -327,7 +419,8 @@ import java.util.Arrays;
     }
     gameBoard = gameBoard2;
     return gameBoard;
-}    
+}   
+*/ 
    public int countTotal()
    {
       int total = 0;
@@ -337,7 +430,7 @@ import java.util.Arrays;
 		{
 			for(c = 0; c < gameBoard[r].length; c++)
 			{
-            if((r == '*')||(c == '*'))
+            if(gameBoard[r][c]=='*')
             {
                total++;
             }
